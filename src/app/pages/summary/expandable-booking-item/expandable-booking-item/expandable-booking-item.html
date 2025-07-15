@@ -25,7 +25,6 @@
 <ng-template #noBookings>
   <p class="fst-italic text-muted">No bookings yet</p>
 </ng-template> -->
-
 <div *ngIf="bookings.length > 0; else noBookings">
   <table class="table table-sm mt-2">
     <thead>
@@ -61,5 +60,5 @@
 </div>
 
 <ng-template #noBookings>
-  <p class="fst-italic text-muted">No bookings yet</p>
+  <p class="fst-italic text-muted">No bookings yet.</p>
 </ng-template>
