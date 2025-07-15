@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { Rooms } from './pages/rooms/rooms';
-import { Booking } from './pages/booking/booking';
-import { Summary } from './pages/summary/summary';
+import { Rooms } from './pages/rooms/room/room';
+import { Booking } from './pages/booking/booking/booking';
+import { Summary } from './pages/summary/summary/summary';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'rooms', pathMatch: 'full' },
