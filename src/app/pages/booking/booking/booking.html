@@ -1,1 +1,76 @@
-<p>booking works!</p>
+<!-- <div class="container mt-4">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Requester Name</mat-label>
+      <input matInput formControlName="requester" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Purpose</mat-label>
+      <textarea matInput formControlName="purpose"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Select Slot</mat-label>
+      <mat-select formControlName="slot">
+        <mat-option *ngFor="let slot of availableSlots" [value]="slot">{{ slot }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      Save Booking
+    </button>
+  </form>
+</div> -->
+<div class="container mt-4">
+  <h2>{{ booking ? 'Edit Booking' : 'New Booking' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="w-100 mb-3">
+      <mat-label>Requester Name</mat-label>
+      <input matInput formControlName="requester" />
+      <mat-error *ngIf="form.get('requester')?.hasError('required')">
+        Requester name is required.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-100 mb-3">
+      <mat-label>Purpose</mat-label>
+      <textarea matInput formControlName="purpose"></textarea>
+      <mat-error *ngIf="form.get('purpose')?.hasError('required')">
+        Purpose is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100 mb-3">
+      <mat-label>Select Slot</mat-label>
+      <mat-select formControlName="slot">
+        <mat-option *ngFor="let slot of availableSlots" [value]="slot">
+          {{ slot }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('slot')?.hasError('required')">
+        Please select a time slot.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="form.invalid"
+      >
+        {{ booking ? 'Save Changes' : 'Book' }}
+      </button>
+
+      <button
+        type="button"
+        mat-stroked-button
+        color="warn"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ room.name }}</h5>
+    <p>Capacity: {{ room.capacity }}</p>
+    <p>Features: {{ room.features.join(', ') }}</p>
+
+    <div *ngIf="isFullyBooked" class="alert alert-danger">
+      Room fully booked
+    </div>
+
+    <div>
+      <button
+        *ngFor="let slot of room.availableSlots"
+        [disabled]="isSlotBooked(slot)"
+        [ngClass]="{ 'btn-success': !isSlotBooked(slot), 'btn-secondary': isSlotBooked(slot) }"
+        class="btn btn-sm m-1"
+        (click)="bookSlot(slot)"
+        [attr.title]="isSlotBooked(slot) ? 'Already booked!' : ''"
+      >
+        {{ slot }}
+      </button>
+    </div>
+  </div>
+</div>

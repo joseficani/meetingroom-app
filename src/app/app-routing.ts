@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { Rooms } from './pages/rooms/room/room';
-import { Booking } from './pages/booking/booking/booking';
+import { Rooms } from './pages/rooms/rooms/rooms';
+import { BookingPage } from './pages/booking/booking/booking';
 import { Summary } from './pages/summary/summary/summary';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'rooms', pathMatch: 'full' },
   { path: 'rooms', component: Rooms },
-  { path: 'book/:roomId', component: Booking },
-  { path: 'book/:roomId/edit/:bookingId', component: Booking },
-  { path: 'summary', component: Summary }
+  { path: 'book/:roomId', component: BookingPage },
+  { path: 'book/:roomId/edit/:bookingId', component: BookingPage },
+  { path: 'summary', component: Summary },
 ];
