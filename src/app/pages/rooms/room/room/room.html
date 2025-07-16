@@ -21,6 +21,8 @@
           }"
           [disabled]="isSlotBooked(slot)"
           (click)="onSlotClick(slot)"
+          data-bs-toggle="tooltip"
+          [attr.title]="isSlotBooked(slot) ? 'Already booked!' : 'Available'"
         >
           {{ slot }}
         </button>
