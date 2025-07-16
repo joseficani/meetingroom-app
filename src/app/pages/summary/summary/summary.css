@@ -1,4 +1,4 @@
-.card-header h5 {
+/* .card-header h5 {
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -15,4 +15,41 @@
 .table th,
 .table td {
   font-size: 0.9rem;
+} */
+
+table {
+  width: 100%;
+}
+
+.inner-table {
+  margin-top: 1rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.fst-italic {
+  font-style: italic;
+}
+
+.full-width {
+  width: 100%;
 }

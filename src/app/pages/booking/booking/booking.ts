@@ -39,19 +39,36 @@ export class BookingPage implements OnInit {
     private bookingService: BookingService
   ) {}
 
-  ngOnInit() {
-    const roomId = +this.route.snapshot.paramMap.get('roomId')!;
-    const bookingId = this.route.snapshot.paramMap.get('bookingId');
+  ngOnInit(): void {
+    const roomIdParam = this.route.snapshot.paramMap.get('roomId');
+    const bookingIdParam = this.route.snapshot.paramMap.get('bookingId');
 
+    if (!roomIdParam) {
+      console.error('No roomId provided in route');
+      this.router.navigate(['/rooms']);
+      return;
+    }
+
+    const roomId = +roomIdParam;
     this.room = this.roomService.getRoomById(roomId)!;
 
+    if (!this.room) {
+      console.error(`Room with ID ${roomId} not found`);
+      this.router.navigate(['/rooms']);
+      return;
+    }
+
+    // Determine available slots, excluding already booked ones
     this.availableSlots = this.room.availableSlots.filter(slot => {
       return !this.bookingService.getBookingsByRoom(roomId).some(b => b.time === slot);
     });
 
-    if (bookingId) {
-      this.booking = this.bookingService.getBookingById(+bookingId);
+    if (bookingIdParam) {
+      const bookingId = +bookingIdParam;
+      this.booking = this.bookingService.getBookingById(bookingId);
+
       if (this.booking) {
+        // If editing, include the current booked slot in the list (even if otherwise booked)
         if (!this.availableSlots.includes(this.booking.time)) {
           this.availableSlots.push(this.booking.time);
         }
@@ -65,8 +82,11 @@ export class BookingPage implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.form.invalid) return;
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     const data: Booking = {
       id: this.booking?.id ?? Date.now(),
@@ -85,7 +105,7 @@ export class BookingPage implements OnInit {
     this.router.navigate(['/summary']);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.router.navigate(['/rooms']);
   }
 }
