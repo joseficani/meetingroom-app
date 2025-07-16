@@ -5,6 +5,7 @@
         [room]="room"
         [bookings]="bookings"
         [isFullyBooked]="isFullyBooked(room)"
+        (slotSelected)="handleSlotSelected(room.id, $event)"
       ></app-room>
     </div>
   </div>

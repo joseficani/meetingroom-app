@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RoomService } from '../../../services/room.service';
-import { BookingService } from '../../../services/booking.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Room } from '../../../models/room.model';
-import { Booking } from '../../../models/booking.model';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Booking } from '../../../models/booking.model';
+import { Room } from '../../../models/room.model';
+import { BookingService } from '../../../services/booking.service';
+import { RoomService } from '../../../services/room.service';
+
 
 @Component({
   standalone: true,

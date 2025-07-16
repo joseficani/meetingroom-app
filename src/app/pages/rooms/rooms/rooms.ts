@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { RoomService } from '../../../services/room.service';
-import { BookingService } from '../../../services/booking.service';
-import { Room as RoomModel } from '../../../models/room.model';
-import { Booking } from '../../../models/booking.model';
 import { CommonModule } from '@angular/common';
-import { Room } from '../room/room/room';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Booking } from '../../../models/booking.model';
+import { Room } from '../../../models/room.model';
+import { BookingService } from '../../../services/booking.service';
+import { RoomService } from '../../../services/room.service';
+import { RoomComponent } from '../room/room/room';
 
 @Component({
   selector: 'app-rooms',
@@ -13,14 +15,18 @@ import { Room } from '../room/room/room';
   styleUrl: './rooms.css',
   imports: [
     CommonModule,
-    Room, 
+    RoomComponent,
   ],
 })
 export class Rooms implements OnInit {
-  rooms: RoomModel[] = [];
+  rooms: Room[] = [];
   bookings: Booking[] = [];
 
-  constructor(private roomService: RoomService, private bookingService: BookingService) {}
+  constructor(
+    private roomService: RoomService,
+    private bookingService: BookingService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.rooms = this.roomService.getRooms();
@@ -31,7 +37,11 @@ export class Rooms implements OnInit {
     return this.bookings.some(b => b.roomId === roomId && b.time === time);
   }
 
-  isFullyBooked(room: RoomModel): boolean {
-    return room.availableSlots.every((slot: string) => this.isSlotBooked(room.id, slot));
+  isFullyBooked(room: Room): boolean {
+    return room.availableSlots.every(slot => this.isSlotBooked(room.id, slot));
+  }
+
+  handleSlotSelected(roomId: number, slot: string) {
+    this.router.navigate([`/book/${roomId}`], { queryParams: { slot } });
   }
 }
