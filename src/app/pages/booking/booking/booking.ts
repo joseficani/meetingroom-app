@@ -3,11 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
 import { Booking } from '../../../models/booking.model';
 import { Room } from '../../../models/room.model';
 import { BookingService } from '../../../services/booking.service';
 import { RoomService } from '../../../services/room.service';
-
 
 @Component({
   standalone: true,
@@ -17,6 +20,9 @@ import { RoomService } from '../../../services/room.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
 })
 export class BookingPage implements OnInit {
