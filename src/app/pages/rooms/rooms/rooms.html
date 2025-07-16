@@ -1,0 +1,12 @@
+<div class="container mt-4">
+  <div class="row">
+    <div *ngFor="let room of rooms" class="col-md-4 mb-3">
+      <app-room
+        [room]="room"
+        [bookings]="bookings"
+        [isFullyBooked]="isFullyBooked(room)"
+        (slotSelected)="handleSlotSelected(room.id, $event)"
+      ></app-room>
+    </div>
+  </div>
+</div>

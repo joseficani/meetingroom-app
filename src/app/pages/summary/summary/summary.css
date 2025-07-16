@@ -1,0 +1,18 @@
+.card-header h5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.card-header small {
+  font-size: 0.9rem;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 0.4em 0.6em;
+}
+
+.table th,
+.table td {
+  font-size: 0.9rem;
+}
