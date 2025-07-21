@@ -1,23 +1,4 @@
-/* .card-header h5 {
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.card-header small {
-  font-size: 0.9rem;
-}
-
-.badge {
-  font-size: 0.8rem;
-  padding: 0.4em 0.6em;
-}
-
-.table th,
-.table td {
-  font-size: 0.9rem;
-} */
-
-table {
+/* table {
   width: 100%;
 }
 
@@ -52,4 +33,39 @@ table {
 
 .full-width {
   width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.expanded-row {
+  background: #f9f9f9;
+} */
+table {
+  width: 100%;
+}
+
+.expanded-content {
+  padding: 16px;
+  background: #f5f5f5;
+}
+
+.inner-table {
+  width: 100%;
+  box-shadow: none;
+  background: white;
+}
+
+.inner-table th {
+  font-weight: 500;
+  background: #fafafa;
+}
+
+button.mat-button {
+  margin: 0 4px;
+}
+
+.hidden-row {
+  display: none;
 }
