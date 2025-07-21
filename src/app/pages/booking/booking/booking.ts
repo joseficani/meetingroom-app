@@ -57,8 +57,6 @@ export class BookingPage implements OnInit {
       this.router.navigate(['/rooms']);
       return;
     }
-
-    // Determine available slots, excluding already booked ones
     this.availableSlots = this.room.availableSlots.filter(slot => {
       return !this.bookingService.getBookingsByRoom(roomId).some(b => b.time === slot);
     });
@@ -68,7 +66,6 @@ export class BookingPage implements OnInit {
       this.booking = this.bookingService.getBookingById(bookingId);
 
       if (this.booking) {
-        // If editing, include the current booked slot in the list (even if otherwise booked)
         if (!this.availableSlots.includes(this.booking.time)) {
           this.availableSlots.push(this.booking.time);
         }
