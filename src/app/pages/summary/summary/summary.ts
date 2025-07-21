@@ -5,11 +5,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Booking } from '../../../models/booking.model';
 import { Room } from '../../../models/room.model';
 import { BookingService } from '../../../services/booking.service';
 import { RoomService } from '../../../services/room.service';
+import { ConfirmDialog } from '../confirm-dialog';
+import { ExpandableBookingItem } from '../expandable-booking-item/expandable-booking-item/expandable-booking-item';
 
 @Component({
   selector: 'app-summary',
@@ -22,7 +25,8 @@ import { RoomService } from '../../../services/room.service';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ExpandableBookingItem
   ],
 })
 export class Summary implements OnInit {
@@ -34,13 +38,13 @@ export class Summary implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.rooms = this.roomService.getRooms();
     this.bookings = this.bookingService.getBookings();
-    this.expandedRoomId = null;
   }
 
   getRoomBookings(roomId: number): Booking[] {
@@ -53,10 +57,6 @@ export class Summary implements OnInit {
     );
   }
 
-  hasAnyBooking(): boolean {
-    return this.bookings.length > 0;
-  }
-
   toggleExpand(roomId: number): void {
     this.expandedRoomId = this.expandedRoomId === roomId ? null : roomId;
   }
@@ -65,11 +65,14 @@ export class Summary implements OnInit {
     return this.expandedRoomId === room.id;
   }
 
-  confirmCancelBooking(bookingId: number, event: MouseEvent): void {
-    event.stopPropagation();
-    if (confirm("Are you sure you want to cancel this booking?")) {
-      this.bookingService.deleteBooking(bookingId);
-      this.bookings = this.bookingService.getBookings();
-    }
+  confirmCancelBooking(bookingId: number): void {
+    const dialogRef = this.dialog.open(ConfirmDialog);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.bookingService.deleteBooking(bookingId);
+        this.bookings = this.bookingService.getBookings();
+      }
+    });
   }
 }

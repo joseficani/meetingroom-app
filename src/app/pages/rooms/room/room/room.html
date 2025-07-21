@@ -3,13 +3,16 @@
     <span>{{ room.name }}</span>
     <span class="badge bg-secondary">{{ room.capacity }} seats</span>
   </div>
+
   <div class="card-body">
     <p>
-      Features: {{ room.features.join(', ') }}
+      <strong>Features:</strong> {{ room.features.join(', ') }}
     </p>
+
     <div *ngIf="isFullyBooked" class="alert alert-danger">
       Room fully booked
     </div>
+
     <div *ngIf="!isFullyBooked">
       <div class="d-flex flex-wrap gap-2">
         <button
@@ -21,8 +24,8 @@
           }"
           [disabled]="isSlotBooked(slot)"
           (click)="onSlotClick(slot)"
-          data-bs-toggle="tooltip"
-          [attr.title]="isSlotBooked(slot) ? 'Already booked!' : 'Available'"
+          [ngbTooltip]="isSlotBooked(slot) ? 'Already booked!' : 'Available'"
+          container="body"
         >
           {{ slot }}
         </button>
