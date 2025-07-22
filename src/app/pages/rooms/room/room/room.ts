@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Booking } from '../../../../models/booking.model';
 import { Room } from '../../../../models/room.model';
@@ -9,7 +10,7 @@ import { Room } from '../../../../models/room.model';
   selector: 'app-room',
   templateUrl: './room.html',
   styleUrl: './room.css',
-  imports: [CommonModule],
+  imports: [CommonModule, NgbTooltipModule],
 })
 export class RoomComponent {
   @Input() room!: Room;

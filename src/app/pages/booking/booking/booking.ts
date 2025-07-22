@@ -3,11 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
 import { Booking } from '../../../models/booking.model';
 import { Room } from '../../../models/room.model';
 import { BookingService } from '../../../services/booking.service';
 import { RoomService } from '../../../services/room.service';
-
 
 @Component({
   standalone: true,
@@ -17,6 +20,9 @@ import { RoomService } from '../../../services/room.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
 })
 export class BookingPage implements OnInit {
@@ -33,18 +39,32 @@ export class BookingPage implements OnInit {
     private bookingService: BookingService
   ) {}
 
-  ngOnInit() {
-    const roomId = +this.route.snapshot.paramMap.get('roomId')!;
-    const bookingId = this.route.snapshot.paramMap.get('bookingId');
+  ngOnInit(): void {
+    const roomIdParam = this.route.snapshot.paramMap.get('roomId');
+    const bookingIdParam = this.route.snapshot.paramMap.get('bookingId');
 
+    if (!roomIdParam) {
+      console.error('No roomId provided in route');
+      this.router.navigate(['/rooms']);
+      return;
+    }
+
+    const roomId = +roomIdParam;
     this.room = this.roomService.getRoomById(roomId)!;
 
+    if (!this.room) {
+      console.error(`Room with ID ${roomId} not found`);
+      this.router.navigate(['/rooms']);
+      return;
+    }
     this.availableSlots = this.room.availableSlots.filter(slot => {
       return !this.bookingService.getBookingsByRoom(roomId).some(b => b.time === slot);
     });
 
-    if (bookingId) {
-      this.booking = this.bookingService.getBookingById(+bookingId);
+    if (bookingIdParam) {
+      const bookingId = +bookingIdParam;
+      this.booking = this.bookingService.getBookingById(bookingId);
+
       if (this.booking) {
         if (!this.availableSlots.includes(this.booking.time)) {
           this.availableSlots.push(this.booking.time);
@@ -59,8 +79,11 @@ export class BookingPage implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.form.invalid) return;
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     const data: Booking = {
       id: this.booking?.id ?? Date.now(),
@@ -79,7 +102,7 @@ export class BookingPage implements OnInit {
     this.router.navigate(['/summary']);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.router.navigate(['/rooms']);
   }
 }

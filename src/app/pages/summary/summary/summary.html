@@ -1,36 +1,76 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Summary</h2>
+  <h2>Summary</h2>
 
-  <div *ngIf="rooms.length > 0; else noRooms">
-    <div *ngFor="let room of rooms" class="card mb-4 shadow-sm">
-      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <div>
-          <h5 class="mb-0">{{ room.name }}</h5>
-          <small>Capacity: {{ room.capacity }}</small>
-        </div>
-        <div>
-          <span class="badge bg-secondary me-2">
-            {{ getRoomBookings(room.id).length }} booking(s)
-          </span>
-          <span
-            *ngIf="isFullyBooked(room)"
-            class="badge bg-danger"
-          >
-            Fully Booked
-          </span>
-        </div>
-      </div>
+  <ng-container *ngIf="rooms.length > 0; else noRooms">
+    <table mat-table 
+           [dataSource]="rooms" 
+           multiTemplateDataRows
+           class="mat-elevation-z2 full-width">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Room Name </th>
+        <td mat-cell *matCellDef="let room"> {{ room.name }} </td>
+      </ng-container>
 
-      <div class="card-body">
-        <app-expandable-booking-item
-          [bookings]="getRoomBookings(room.id)"
-          [room]="room"
-        ></app-expandable-booking-item>
-      </div>
-    </div>
-  </div>
+      <ng-container matColumnDef="capacity">
+        <th mat-header-cell *matHeaderCellDef> Capacity </th>
+        <td mat-cell *matCellDef="let room"> {{ room.capacity }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bookings">
+        <th mat-header-cell *matHeaderCellDef> # of Bookings </th>
+        <td mat-cell *matCellDef="let room">
+          {{ getRoomBookings(room.id).length }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let room">
+          <span *ngIf="isFullyBooked(room)" class="badge bg-danger">Fully Booked</span>
+          <span *ngIf="!isFullyBooked(room) && getRoomBookings(room.id).length === 0"
+                class="text-muted fst-italic">No bookings yet</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let room">
+          <button mat-icon-button
+                  *ngIf="getRoomBookings(room.id).length > 0"
+                  (click)="toggleExpand(room.id)"
+                  matTooltip="Expand/Collapse">
+            <mat-icon>
+              {{ expandedRoomId === room.id ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let room" [attr.colspan]="displayedColumns.length">
+          <div class="expanded-content">
+            <app-expandable-booking-item
+              [room]="room"
+              [bookings]="getRoomBookings(room.id)"
+              (cancel)="confirmCancelBooking($event)">
+            </app-expandable-booking-item>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let room; columns: displayedColumns;"></tr>
+      <tr mat-row 
+          *matRowDef="let room; columns: ['expandedDetail']; when: isExpanded"
+          [class.hidden]="!isExpanded(room)">
+      </tr>
+    </table>
+  </ng-container>
 
   <ng-template #noRooms>
-    <p>No rooms available.</p>
+    <div class="text-center text-muted mt-4">
+      <mat-icon>info</mat-icon>
+      <p>No rooms available!</p>
+    </div>
   </ng-template>
 </div>

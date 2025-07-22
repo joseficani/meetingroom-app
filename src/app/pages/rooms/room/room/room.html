@@ -3,27 +3,34 @@
     <span>{{ room.name }}</span>
     <span class="badge bg-secondary">{{ room.capacity }} seats</span>
   </div>
+
   <div class="card-body">
     <p>
-      Features: {{ room.features.join(', ') }}
+      <strong>Features:</strong> {{ room.features.join(', ') }}
     </p>
+
     <div *ngIf="isFullyBooked" class="alert alert-danger">
       Room fully booked
     </div>
+
     <div *ngIf="!isFullyBooked">
       <div class="d-flex flex-wrap gap-2">
-        <button
-          *ngFor="let slot of room.availableSlots"
-          class="btn"
-          [ngClass]="{
-            'btn-success': !isSlotBooked(slot),
-            'btn-secondary': isSlotBooked(slot)
-          }"
-          [disabled]="isSlotBooked(slot)"
-          (click)="onSlotClick(slot)"
-        >
-          {{ slot }}
-        </button>
+       <button
+  *ngFor="let slot of room.availableSlots"
+  class="btn"
+  [ngClass]="{
+    'btn-success': !isSlotBooked(slot),
+    'btn-secondary': isSlotBooked(slot)
+  }"
+  [disabled]="isSlotBooked(slot)"
+  (click)="onSlotClick(slot)"
+  [ngbTooltip]="isSlotBooked(slot) ? 'Already booked!' : 'Available'"
+  tooltipClass="tooltip-custom"
+  container="body"
+>
+  {{ slot }}
+</button>
+
       </div>
     </div>
   </div>

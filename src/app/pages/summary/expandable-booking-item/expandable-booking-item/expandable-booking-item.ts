@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Booking } from '../../../../models/booking.model';
 import { Room as RoomModel } from '../../../../models/room.model';
-import { BookingService } from '../../../../services/booking.service';
-
 
 @Component({
   selector: 'app-expandable-booking-item',
@@ -17,20 +15,15 @@ import { BookingService } from '../../../../services/booking.service';
 export class ExpandableBookingItem {
   @Input() room!: RoomModel;
   @Input() bookings: Booking[] = [];
+  @Output() cancel = new EventEmitter<number>();
 
-  constructor(
-    private router: Router,
-    private bookingService: BookingService
-  ) {}
+  constructor(private router: Router) {}
 
   editBooking(booking: Booking) {
     this.router.navigate([`/book/${booking.roomId}/edit/${booking.id}`]);
   }
 
   cancelBooking(booking: Booking) {
-    if (confirm(`Cancel booking for ${booking.time}?`)) {
-      this.bookingService.deleteBooking(booking.id);
-      window.location.reload();
-    }
+    this.cancel.emit(booking.id);
   }
 }
