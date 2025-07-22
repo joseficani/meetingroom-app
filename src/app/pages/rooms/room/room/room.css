@@ -18,3 +18,8 @@
 button.btn {
   min-width: 80px;
 }
+::ng-deep.tooltip-custom{
+  .tooltip-inner{
+    background-color: red;
+  }
+}

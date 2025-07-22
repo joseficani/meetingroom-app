@@ -6,20 +6,16 @@
            [dataSource]="rooms" 
            multiTemplateDataRows
            class="mat-elevation-z2 full-width">
-
-      <!-- Room Name -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Room Name </th>
         <td mat-cell *matCellDef="let room"> {{ room.name }} </td>
       </ng-container>
 
-      <!-- Capacity -->
       <ng-container matColumnDef="capacity">
         <th mat-header-cell *matHeaderCellDef> Capacity </th>
         <td mat-cell *matCellDef="let room"> {{ room.capacity }} </td>
       </ng-container>
 
-      <!-- # of Bookings -->
       <ng-container matColumnDef="bookings">
         <th mat-header-cell *matHeaderCellDef> # of Bookings </th>
         <td mat-cell *matCellDef="let room">
@@ -27,7 +23,6 @@
         </td>
       </ng-container>
 
-      <!-- Status -->
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Status </th>
         <td mat-cell *matCellDef="let room">
@@ -37,7 +32,6 @@
         </td>
       </ng-container>
 
-      <!-- Expand -->
       <ng-container matColumnDef="expand">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let room">
@@ -52,7 +46,6 @@
         </td>
       </ng-container>
 
-      <!-- Expanded Detail -->
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let room" [attr.colspan]="displayedColumns.length">
           <div class="expanded-content">
@@ -65,11 +58,11 @@
         </td>
       </ng-container>
 
-      <!-- Table Rows -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let room; columns: displayedColumns;"></tr>
       <tr mat-row 
-          *matRowDef="let room; columns: ['expandedDetail']; when: isExpanded">
+          *matRowDef="let room; columns: ['expandedDetail']; when: isExpanded"
+          [class.hidden]="!isExpanded(room)">
       </tr>
     </table>
   </ng-container>

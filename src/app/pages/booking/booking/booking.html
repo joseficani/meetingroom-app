@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header bg-primary text-white d-flex justify-content-between">
       <h5 class="mb-0">{{ booking ? 'Edit Booking' : 'New Booking' }}</h5>
     </div>
     <div class="card-body">
@@ -35,21 +35,22 @@
           </mat-form-field>
         </div>
         <div class="mb-3">
-          <label for="slot" class="form-label">Select Slot</label>
-          <select
-            id="slot"
-            formControlName="slot"
-            class="form-select"
-            [ngClass]="{'is-invalid': form.controls['slot'].invalid && form.controls['slot'].touched}"
-          >
-            <option value="" disabled>Select a time slot</option>
-            <option *ngFor="let slot of availableSlots" [value]="slot">
-              {{ slot }}
-            </option>
-          </select>
-          <div *ngIf="form.controls['slot'].invalid && form.controls['slot'].touched" class="invalid-feedback">
-            Slot is required
-          </div>
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Select Slot</mat-label>
+            <mat-select
+              formControlName="slot"
+              panelClass="booking-slot-panel"
+              placeholder="Pick a time slot"
+            >
+              <mat-option value="" disabled>Select a time slot</mat-option>
+              <mat-option *ngFor="let slot of availableSlots" [value]="slot">
+                {{ slot }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.controls['slot'].invalid && form.controls['slot'].touched">
+              Slot is required
+            </mat-error>
+          </mat-form-field>
         </div>
         <div class="d-flex justify-content-between mt-3">
           <button

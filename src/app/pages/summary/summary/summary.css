@@ -1,31 +1,40 @@
 table {
   width: 100%;
+  border-collapse: collapse;
 }
 
 .expanded-content {
   padding: 16px;
-  background: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 .inner-table {
   width: 100%;
   box-shadow: none;
-  background: white;
+  background-color: #fff;
+  border: 1px solid #ddd;
 }
 
 .inner-table th {
   font-weight: 500;
-  background: #fafafa;
+  background-color: #fafafa;
+  text-align: left;
+  padding: 8px;
 }
 
-button.mat-button {
+.inner-table td {
+  padding: 8px;
+}
+
+button.mat-button,
+button.mat-icon-button {
   margin: 0 4px;
 }
 
-.hidden-row {
+.hidden {
   display: none;
 }
 
 .expanded-row {
-  background: #f9f9f9;
+  background-color: #f9f9f9;
 }
